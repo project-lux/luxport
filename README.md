@@ -2,10 +2,10 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/luxport.svg)](https://pypi.org/project/luxport/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/luxport.svg)](https://pypi.org/project/luxport/)
-[![GitHub stars](https://img.shields.io/github/stars/williamjbmattingly/luxport.svg)](https://github.com/williamjbmattingly/luxport/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/williamjbmattingly/luxport.svg)](https://github.com/williamjbmattingly/luxport/network)
-[![GitHub issues](https://img.shields.io/github/issues/williamjbmattingly/luxport.svg)](https://github.com/williamjbmattingly/luxport/issues)
-[![License](https://img.shields.io/github/license/williamjbmattingly/luxport.svg)](https://github.com/williamjbmattingly/luxport/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/project-lux/luxport.svg)](https://github.com/project-lux/luxport/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/project-lux/luxport.svg)](https://github.com/project-lux/luxport/network)
+[![GitHub issues](https://img.shields.io/github/issues/project-lux/luxport.svg)](https://github.com/project-lux/luxport/issues)
+[![License](https://img.shields.io/github/license/project-lux/luxport.svg)](https://github.com/project-lux/luxport/blob/main/LICENSE)
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
 
 A utility for exporting IIIF manifest data to ZIP files. LuxPort is specifically designed to work with Yale Library's digital collections and other IIIF-compliant repositories.
@@ -30,7 +30,7 @@ pip install luxport
 ### From Source
 
 ```bash
-git clone https://github.com/williamjbmattingly/luxport.git
+git clone https://github.com/project-lux/luxport.git
 cd luxport
 pip install -e .
 ```
@@ -219,3 +219,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Yale University Library for their IIIF implementation
 - International Image Interoperability Framework (IIIF) community
+- Project Lux at Yale University Library

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="luxport",
-    version="0.0.1",
+    version="0.1.0",
     packages=find_packages(),
     install_requires=[
         "requests>=2.25.0",
@@ -11,10 +11,11 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'luxport=luxport.cli:main',
+            'luxport=luxport.luxport.cli:main',
         ],
     },
     author="William J.B. Mattingly",
+    author_email="william.mattingly@yale.edu",
     description="A utility for exporting IIIF manifest data to ZIP files",
     keywords="iiif, manifest, export, yale, library",
     python_requires=">=3.7",
