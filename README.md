@@ -1,4 +1,4 @@
-# <img src="assets/luxport-logo.png" alt="LuxPort Logo" width="400"/>
+<img src="https://github.com/project-lux/luxport/blob/main/assets/luxport-logo.png?raw=true" alt="LuxPort Logo" width="400"/>
 
 [![PyPI version](https://img.shields.io/pypi/v/luxport.svg)](https://pypi.org/project/luxport/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/luxport.svg)](https://pypi.org/project/luxport/)
@@ -18,6 +18,7 @@ A utility for exporting IIIF manifest data to ZIP files. LuxPort is specifically
 - 📁 Organizes content in a structured, accessible format
 - 💻 Provides both a command-line interface and a Python API
 - ⚡ Supports parallel batch processing for multiple manifests
+- 🔗 Works with direct IIIF manifest URLs or Lux/Linked Art URLs
 
 ## Installation
 
@@ -43,6 +44,14 @@ from luxport import ManifestExporter
 # Export a manifest from URL to ZIP file
 exporter = ManifestExporter("https://collections.library.yale.edu/manifests/16867950")
 exporter.export("yale_collection.zip")
+
+# Export from a Lux URL
+exporter = ManifestExporter("https://lux.collections.yale.edu/data/object/4ec7e7d5-c81b-453e-90a6-88a73e9a0171")
+exporter.export("yale_diary.zip")
+
+# Export using Linked Art format
+exporter = ManifestExporter("https://linked-art.library.yale.edu/node/2b7fe907-b537-45b3-8cab-75db73d3bed0", format="la")
+exporter.export("yale_la_export.zip")
 ```
 
 ## Usage
@@ -55,6 +64,12 @@ luxport export https://collections.library.yale.edu/manifests/16867950 --output-
 
 # Specify a custom output filename
 luxport export https://collections.library.yale.edu/manifests/16867950 --output-file yale_collection.zip
+
+# Export from a Lux URL
+luxport export https://lux.collections.yale.edu/data/object/4ec7e7d5-c81b-453e-90a6-88a73e9a0171 --output-file yale_diary.zip
+
+# Export using Linked Art format
+luxport export https://linked-art.library.yale.edu/node/2b7fe907-b537-45b3-8cab-75db73d3bed0 --format la --output-file yale_la_export.zip
 
 # Show help
 luxport --help
@@ -72,6 +87,37 @@ exporter.export("yale_collection.zip")
 
 # Or export to a directory
 exporter.export_to_directory("./exported")
+
+# Work with Lux or Linked Art URLs
+exporter = ManifestExporter("https://lux.collections.yale.edu/data/object/4ec7e7d5-c81b-453e-90a6-88a73e9a0171")
+exporter.export("yale_lux_item.zip")
+```
+
+### Lux and Linked Art Support
+
+LuxPort can process both Lux and Linked Art URLs:
+
+```python
+from luxport import LuxParser
+
+# Process a Lux URL to get IIIF manifest URLs
+parser = LuxParser()
+data = parser.get_data("https://lux.collections.yale.edu/data/object/4ec7e7d5-c81b-453e-90a6-88a73e9a0171")
+manifest_urls = parser.find_iiif_manifests(data)
+print(manifest_urls)
+
+# Get Linked Art format of the same data
+linked_art_data = parser.get_data("https://lux.collections.yale.edu/data/object/4ec7e7d5-c81b-453e-90a6-88a73e9a0171", format="la")
+```
+
+You can also use the convenience function:
+
+```python
+from luxport import process_lux_url
+
+# Get IIIF manifest URLs from a Lux URL
+manifest_urls = process_lux_url("https://lux.collections.yale.edu/data/object/4ec7e7d5-c81b-453e-90a6-88a73e9a0171")
+print(manifest_urls)
 ```
 
 ## Output Structure

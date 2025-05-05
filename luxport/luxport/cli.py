@@ -36,7 +36,7 @@ def parse_args(args: Optional[List[str]] = None) -> argparse.Namespace:
     export_parser = subparsers.add_parser("export", help="Export a manifest to a ZIP file or directory")
     export_parser.add_argument(
         "manifest_url", 
-        help="URL of the IIIF manifest to export"
+        help="URL of the IIIF manifest to export, or a Lux/Linked Art URL"
     )
     export_parser.add_argument(
         "--output-file", "-o",
@@ -50,6 +50,12 @@ def parse_args(args: Optional[List[str]] = None) -> argparse.Namespace:
         "--no-progress", "-n",
         action="store_true",
         help="Disable progress bars"
+    )
+    export_parser.add_argument(
+        "--format", "-f",
+        choices=["lux", "la"],
+        default="lux",
+        help="Format to use when processing Lux/Linked Art URLs ('lux' or 'la')"
     )
     
     # Version command
@@ -77,7 +83,7 @@ def main(args: Optional[List[str]] = None) -> int:
     # Handle export command
     if parsed_args.command == "export":
         try:
-            exporter = ManifestExporter(parsed_args.manifest_url)
+            exporter = ManifestExporter(parsed_args.manifest_url, format=parsed_args.format)
             manifest_id = exporter.downloader.get_manifest_id()
             
             # Export to directory if specified

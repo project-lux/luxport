@@ -3,25 +3,53 @@ Handles downloading IIIF manifests and associated images
 """
 
 import os
+import re
 import json
 import requests
 from tqdm import tqdm
 from typing import Dict, Any, List, Optional, Tuple
+from .lux_parser import LuxParser, process_lux_url
 
 class ManifestDownloader:
     """Downloads IIIF manifests and their associated images"""
     
-    def __init__(self, manifest_url: str = None, manifest_data: Dict = None):
+    def __init__(self, manifest_url: str = None, manifest_data: Dict = None, format: str = "lux"):
         """
         Initialize with either a manifest URL or manifest data.
         
         Args:
-            manifest_url: URL to an IIIF manifest
+            manifest_url: URL to an IIIF manifest, or a Lux/Linked Art URL
             manifest_data: Already loaded manifest data as a dictionary
+            format: Format to use when processing Lux/Linked Art URLs ('lux' or 'la')
         """
+        self.original_url = manifest_url
         self.manifest_url = manifest_url
         self._manifest_data = manifest_data
         self._session = requests.Session()
+        self.format = format
+        
+        # Check if the URL is a Lux or Linked Art URL and process it
+        if manifest_url and (self._is_lux_url(manifest_url) or self._is_linked_art_url(manifest_url)):
+            self._process_lux_or_la_url()
+    
+    def _is_lux_url(self, url: str) -> bool:
+        """Check if the URL is a Lux URL."""
+        return bool(re.match(r"https?://lux\.collections\.yale\.edu/data/object/", url))
+    
+    def _is_linked_art_url(self, url: str) -> bool:
+        """Check if the URL is a Linked Art URL."""
+        return bool(re.match(r"https?://linked-art\.library\.yale\.edu/node/", url))
+    
+    def _process_lux_or_la_url(self) -> None:
+        """Process a Lux or Linked Art URL to get the IIIF manifest URL."""
+        try:
+            manifest_urls = process_lux_url(self.original_url, self.format)
+            if manifest_urls:
+                self.manifest_url = manifest_urls[0]  # Use the first manifest URL
+            else:
+                raise ValueError("No IIIF manifest URLs found in the Lux/Linked Art data")
+        except Exception as e:
+            raise ValueError(f"Error processing Lux/Linked Art URL: {str(e)}")
     
     def download_manifest(self) -> Dict[str, Any]:
         """
@@ -199,5 +227,5 @@ class ManifestDownloader:
             
             if self.download_image(img['id'], output_path):
                 successful += 1
-                
+        
         return successful, len(images) 

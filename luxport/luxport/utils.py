@@ -204,7 +204,7 @@ def generate_export_info(manifest_url: str, manifest_id: str, image_count: int) 
         f"Images Exported: {image_count}",
         "",
         "This export was created using LuxPort, a utility for exporting IIIF manifest data.",
-        "For more information, see: https://github.com/yourusername/luxport",
+        "For more information, see: https://github.com/project-lux/luxport",
     ]
     
     return "\n".join(lines) 

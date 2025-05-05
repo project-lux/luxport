@@ -15,15 +15,16 @@ from .utils import simplify_manifest, generate_metadata_text, generate_export_in
 class ManifestExporter:
     """Exports IIIF manifest data to ZIP files or directories"""
     
-    def __init__(self, manifest_url: str = None, manifest_data: Dict = None):
+    def __init__(self, manifest_url: str = None, manifest_data: Dict = None, format: str = "lux"):
         """
         Initialize with either a manifest URL or manifest data.
         
         Args:
-            manifest_url: URL to an IIIF manifest
+            manifest_url: URL to an IIIF manifest, or a Lux/Linked Art URL
             manifest_data: Already loaded manifest data as a dictionary
+            format: Format to use when processing Lux/Linked Art URLs ('lux' or 'la')
         """
-        self.downloader = ManifestDownloader(manifest_url, manifest_data)
+        self.downloader = ManifestDownloader(manifest_url, manifest_data, format=format)
     
     def export(self, output_file: str, show_progress: bool = True) -> str:
         """
